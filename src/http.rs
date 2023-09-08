@@ -74,7 +74,7 @@ impl HttpResponse {
         if let Some(content) = &self.content {
             response.push_str(
                 format!(
-                    "Server: {}\r\nContent-Length: {}\r\nContent-Type: {}\r\n\r\n{}",
+                    "Server: {}\r\nContent-Length: {}\r\nContent-Type: {}\r\nAccess-Control-Allow-Origin: *\r\n\r\n{}",
                     "mxcop@note-server",
                     content.len(),
                     self.content_type,

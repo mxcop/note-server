@@ -53,7 +53,9 @@ const COMRAK_OPTIONS: ComrakOptions = ComrakOptions {
 
 /// Read a note and return it as a HTTP response.
 fn read_note(path: &str) -> HttpResponse {
-    let file = fs::read_to_string(path).unwrap_or(String::new());
+    let Ok(file) = fs::read_to_string(path) else {
+        return HttpResponse::not_found();
+    };
     let mut response = HttpResponse::ok();
 
     response.html(&markdown_to_html(&file, &COMRAK_OPTIONS));
