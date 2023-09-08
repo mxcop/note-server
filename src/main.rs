@@ -35,7 +35,7 @@ const COMRAK_OPTIONS: ComrakOptions = ComrakOptions {
         front_matter_delimiter: None,
     }, 
     parse: ComrakParseOptions {
-        smart: false,
+        smart: true,
         default_info_string: None,
         relaxed_tasklist_matching: false,
     }, 
@@ -44,8 +44,8 @@ const COMRAK_OPTIONS: ComrakOptions = ComrakOptions {
         github_pre_lang: false,
         full_info_string: false,
         width: 0,
-        unsafe_: false,
-        escape: true,
+        unsafe_: true,
+        escape: false,
         list_style: ListStyleType::Star,
         sourcepos: false,
     }

@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Max's Notes</title>
-</head>
-<body style="background-color: #131414; color: #928374; font-family: Segoe WPC,Segoe UI,sans-serif;">
-    <input type="text" name="search" id="search">
-    <button id="search-btn">Search</button>
 
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <nav>
+        <input type="text" name="search" id="search">
+        <button id="search-btn">Search</button>
+    </nav>
+    
     <section id="content"></section>
 
     <script>
@@ -16,7 +20,7 @@
         let search_btn = document.getElementById("search-btn");
         let content = document.getElementById("content");
 
-        search_btn.onmousedown = async () => {
+        const search = async () => {
             console.log(search_box.value);
             let res = await fetch("http://127.0.0.1:1440/notes/" + search_box.value);
             
@@ -25,6 +29,13 @@
                 content.innerHTML = md;
             } else {
                 content.innerText = "404 Note Not Found";
+            }
+        };
+
+        search_btn.onmousedown = search;
+        search_box.onkeydown = async (ev) => {
+            if(ev.key === 'Enter') {
+                await search();
             }
         };
     </script>
