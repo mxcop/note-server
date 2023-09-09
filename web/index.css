@@ -4,41 +4,104 @@ body {
     font-family: Segoe WPC,Segoe UI,sans-serif;
 
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin: 0;
 }
 
 nav {
+    color: #8e8174;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 1em;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    position: relative;
+    height: 32px;
+    padding-left: 2.5em;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li:hover {
+    background-color: #9d79da22;
+    color: #f9e9da;
+}
+
+nav ul svg {
+    position: absolute;
+    left: 0.5em;
+    color: #ca89de;
+}
+
+.search-bar {
     display: flex;
     gap: 1em;
-    padding: 1em 0;
+}
+
+.search-bar input {
+    flex-grow: 1;
 }
 
 input, button {
-    background-color: #ffffff11;
-    border: 3px solid #ffffff11;
-    color: #f9e9da;
+    background-color: transparent;
+    color: #eed8c3;
+    border: none;
     outline: none;
-    border-radius: 4px;
+    border-radius: 6px;
     padding: 0.6em;
+}
+
+input {
+    border: 3px solid #ffffff11;
+    font-size: 0.9em;
+}
+
+input:focus {
+    border: 3px solid #9d79da88;
+    color: #eed8c3;
 }
 
 button {
     cursor: pointer;
+    border: 3px dashed #ffffff22;
+    color: #eed8c3;
 }
 
 button:hover {
     background-color: #9d79da44;
-    border: 3px solid #9d79da;
+    border: 3px dashed #9d79da88;
 }
 
-section#content {
-    width: 65%;
+section {
+    background-color: #202020;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    padding: 0 320px 0 0;
+}
+
+#doc {
+    width: 75%;
     max-width: 1024px;
+    min-height: 100vh;
+}
+
+@media only screen and (max-width: 1280px) {
+    section {
+        padding: 0;
+    }
 }
 
 @media only screen and (max-width: 720px) {
-    section#content {
+    #doc {
         width: calc(100% - 4em);
         max-width: 1024px;
         padding: 0 2em;
@@ -57,7 +120,7 @@ h2 {
 }
 
 h1, h2, h3 {
-    border-bottom: 1px solid #ffffff20;
+    border-bottom: 1px solid #ffffff22;
 }
 
 img {

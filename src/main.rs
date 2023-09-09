@@ -78,7 +78,7 @@ fn write_note(path: &str, body: &str) -> HttpResponse {
 /// Evaluate an incoming HTTP request.
 fn eval_request(request: &HttpRequest) -> HttpResponse {
     match &request.path {
-        // '/notes' path
+        /* read or write a note */
         s if s.starts_with("/notes") => {
             match request.req_type {
                 RequestType::GET => read_note(&s[1..]),
@@ -86,6 +86,50 @@ fn eval_request(request: &HttpRequest) -> HttpResponse {
 
                 _ => HttpResponse::not_found()
             }
+        }
+        
+        /* list all notes */
+        s if s.starts_with("/list") => {
+            if s.len() <= 6 || !s.contains('?') {
+                return HttpResponse::err_with_context("Missing query string '?<start>:<end>'");
+            }
+
+            let mut bounds = s[6..].split(':');
+            let Some(start) = bounds.next() else {
+                return HttpResponse::err_with_context("Missing start bounds '?<start>:<end>'");
+            };
+            let Some(end) = bounds.next() else {
+                return HttpResponse::err_with_context("Missing end bounds '?<start>:<end>'");
+            };
+
+            let Ok(start) = start.parse::<u16>() else {
+                return HttpResponse::err_with_context("Start bounds is not a valid number");
+            };
+            let Ok(end) = end.parse::<u16>() else {
+                return HttpResponse::err_with_context("End bounds is not a valid number");
+            };
+
+            if start > end {
+                return HttpResponse::err_with_context("Start of the bounds is bigger then the end");
+            }
+
+            let mut notes: Vec<String> = Vec::new();
+            let mut paths = fs::read_dir("notes").unwrap();
+            let mut i = 0;
+
+            while let Some(Ok(entry)) = paths.next() {
+                if i < start || i >= end {
+                    i += 1;
+                    continue;
+                }
+
+                notes.push(entry.file_name().to_string_lossy().to_string());
+                i += 1;
+            }
+
+            let mut response = HttpResponse::ok();
+            response.json(&format!("[\"{}\"]", notes.join("\", \"")));
+            response
         }
 
         _ => HttpResponse::not_found()
